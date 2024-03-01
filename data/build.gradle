@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace 'com.tnt.attendance_data'
-    compileSdk 33
+    namespace 'com.tnt.attendance'
+    compileSdk 34
 
     defaultConfig {
         minSdk 29
-        targetSdk 33
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
