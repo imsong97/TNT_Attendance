@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TNT_Attendance"
+        android:theme="@style/Theme.Main"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
