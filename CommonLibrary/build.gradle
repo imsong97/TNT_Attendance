@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.tnt.attendance'
+    namespace 'com.tnt.commonlibrary'
     compileSdk 34
 
     defaultConfig {
@@ -38,16 +38,4 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    implementation project(path: ':CommonLibrary')
-
-    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-config")
-    implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-auth-ktx")
-
-    implementation 'com.google.code.gson:gson:2.9.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 }
