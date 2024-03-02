@@ -1,7 +1,6 @@
-package com.tnt.attendance.main
+package com.tnt.attendance.calendar
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.style.ForegroundColorSpan
@@ -20,20 +19,20 @@ import com.tnt.attendance.databinding.FragmentAttendanceMainBinding
 import com.tnt.commonlibrary.ContextWrapper
 import java.util.*
 
-class AttendanceMainFragment : Fragment(), AttendanceContract.View {
+class AttendanceCalendarFragment : Fragment(), AttendanceCalendarContract.View {
 
     private lateinit var binding: FragmentAttendanceMainBinding
-    private lateinit var presenter: AttendanceContract.Presenter
+    private lateinit var presenter: AttendanceCalendarContract.Presenter
     private var selectDecorator: SelectDecorator? = null
 
     companion object {
-        fun getInstance(month: Int, attendDate: ArrayList<String>): AttendanceMainFragment {
+        fun getInstance(month: Int, attendDate: ArrayList<String>): AttendanceCalendarFragment {
             val bundle = Bundle().run {
                 this.putInt("month", month)
                 this.putSerializable("attendDate", attendDate)
                 this
             }
-            val fragment = AttendanceMainFragment().apply {
+            val fragment = AttendanceCalendarFragment().apply {
                 this.arguments = bundle
             }
             return fragment
@@ -46,7 +45,7 @@ class AttendanceMainFragment : Fragment(), AttendanceContract.View {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_attendance_main, null, false)
-        presenter = AttendancePresenter(this, ContextWrapper(requireContext()))
+        presenter = AttendanceCalendarPresenter(this, ContextWrapper(requireContext()))
         initView()
         return binding.root
     }

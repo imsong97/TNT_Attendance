@@ -1,4 +1,4 @@
-package com.tnt.attendance.main
+package com.tnt.attendance.attendancemain
 
 interface AttendanceContract {
     interface View {
