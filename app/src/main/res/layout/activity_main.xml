@@ -70,7 +70,72 @@
                 android:gravity="center"/>
         </LinearLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_calendar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/color_ffffff"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        android:id="@+id/calendar_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mcv_showWeekDays="true"
+                        app:mcv_weekDayLabels="@array/weekdays"
+                        app:mcv_calendarMode="month"
+                        app:mcv_weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+                        app:mcv_dateTextAppearance="@style/CalenderViewDayCustomText"
+                        app:contentPaddingBottom="0dp"
+                        android:clipToPadding="false"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        app:layout_constraintTop_toTopOf="@+id/calendar_view"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@color/color_f5f5f5"/>
+
+                    <include
+                        android:id="@+id/include_attend_member"
+                        layout="@layout/include_attend_member"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/divider"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/content_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
