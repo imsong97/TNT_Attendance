@@ -9,6 +9,7 @@ interface AttendanceContract {
     interface Presenter {
         fun getSpinnerData(year: String)
         fun getAttendDateList(year: String, month: String)
+        fun getAttendMemberList(date: String): ArrayList<String>
         fun dispose()
     }
 }

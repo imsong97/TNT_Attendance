@@ -48,6 +48,8 @@ class AttendancePresenter(
             }
     }
 
+    override fun getAttendMemberList(date: String) = attendList?.get(date) ?: arrayListOf()
+
     override fun dispose() {
         compositeDisposable.dispose()
     }

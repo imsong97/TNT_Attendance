@@ -7,14 +7,15 @@ import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.tnt.attendance.R
 import com.tnt.attendance.attendancemain.decorator.EnableDayDecorator
 import com.tnt.attendance.attendancemain.decorator.InitDecorator
 import com.tnt.attendance.attendancemain.decorator.SelectDecorator
 import com.tnt.attendance.attendancemain.decorator.TodayDecorator
+import com.tnt.attendance.attendancemain.recylcerview.MemberListAdapter
 import com.tnt.attendance.databinding.ActivityMainBinding
-import com.tnt.attendance_data.remote.Firestore
 import com.tnt.commonlibrary.ContextWrapper
 import java.util.*
 import kotlin.collections.ArrayList
@@ -23,9 +24,10 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var presenter: AttendanceContract.Presenter
-    private lateinit var popupMenu: PopupMenu
     private lateinit var currentFragment: Fragment
 
+    private var memberListAdapter: MemberListAdapter? = null
+    private var popupMenu: PopupMenu? = null
     private var selectDecorator: SelectDecorator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +38,6 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
     }
 
     private fun initView() {
-        Firestore.instance?.getData()
         val calendar = Calendar.getInstance(Locale.KOREA)
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH) + 1
@@ -54,9 +55,7 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
 
     private val listener = View.OnClickListener { v ->
         when(v.id) {
-            R.id.layout_spinner -> if (::popupMenu.isInitialized) {
-                popupMenu.show()
-            }
+            R.id.layout_spinner -> popupMenu?.show()
             R.id.btn_attendance_main -> {
 
             }
@@ -90,9 +89,12 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
                 }
                 selectDecorator = SelectDecorator(this@AttendanceActivity, date)
                 this.addDecorator(selectDecorator)
+                setMemberListAdapter(date.day)
             }
             this.invalidate()
         }
+
+        binding.includeAttendMember.root.visibility = View.GONE
     }
 
     override fun setSpinner(monthList: ArrayList<String>) {
@@ -119,6 +121,24 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
     override fun setDayDecorator(dayList: ArrayList<String>) {
         dayList.forEach {
             binding.calendarView.addDecorator(EnableDayDecorator(this@AttendanceActivity, it.toIntOrNull()))
+        }
+    }
+
+    private fun setMemberListAdapter(date: Int) {
+        binding.includeAttendMember.root.visibility = View.VISIBLE
+        val list = presenter.getAttendMemberList(date.toString())
+        binding.includeAttendMember.txtDateTitle.text = "${date}일 - 총 ${list.size}명"
+
+        if (memberListAdapter == null) {
+            memberListAdapter = MemberListAdapter(list)
+            binding.includeAttendMember.recyclerView.apply {
+                this.setHasFixedSize(true)
+                this.layoutManager = GridLayoutManager(this@AttendanceActivity, 2)
+                this.adapter = memberListAdapter
+            }
+        } else {
+            memberListAdapter?.setMemberList(list)
+            memberListAdapter?.notifyDataSetChanged()
         }
     }
 
