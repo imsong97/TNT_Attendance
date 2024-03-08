@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.tnt.attendance'
+    namespace 'com.tnt.attendance_data'
     compileSdk 34
 
     defaultConfig {
