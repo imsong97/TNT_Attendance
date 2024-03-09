@@ -4,6 +4,7 @@
     <string name="tab_attendance_main">출석부</string>
     <string name="tab_ranking_list">출석 현황</string>
     <string name="title_attend_manage">출석 체크</string>
+    <string name="attend_manage_description">* 날짜를 선택하세요. *</string>
 
     <array name="weekdays">
         <item>월</item>
