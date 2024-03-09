@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tab_attendance_main">출석부</string>
+    <string name="tab_ranking_list">출석 현황</string>
+    <string name="title_attend_manage">출석 체크</string>
+
+    <array name="weekdays">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </array>
+</resources>

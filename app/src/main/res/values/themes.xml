@@ -13,9 +13,4 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-
-    <style name="Theme.Main" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/color_tab_view_background</item>
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
 </resources>

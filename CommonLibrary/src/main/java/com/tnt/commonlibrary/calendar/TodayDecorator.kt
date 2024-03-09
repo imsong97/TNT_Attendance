@@ -1,11 +1,11 @@
-package com.tnt.attendance.attendancemain.decorator
+package com.tnt.commonlibrary.calendar
 
 import android.content.Context
 import androidx.core.content.ContextCompat
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
-import com.tnt.attendance.R
+import com.tnt.commonlibrary.R
 
 class TodayDecorator(private val context: Context) : DayViewDecorator {
     private val today = CalendarDay.today()

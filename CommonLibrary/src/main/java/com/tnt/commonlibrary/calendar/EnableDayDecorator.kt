@@ -1,11 +1,11 @@
-package com.tnt.attendance.attendancemain.decorator
+package com.tnt.commonlibrary.calendar
 
 import android.content.Context
 import android.text.style.ForegroundColorSpan
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
-import com.tnt.attendance.R
+import com.tnt.commonlibrary.R
 
 class EnableDayDecorator(private val context: Context, private val date: Int?) :
     DayViewDecorator {

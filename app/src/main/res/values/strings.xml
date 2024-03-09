@@ -1,16 +1,3 @@
 <resources>
     <string name="app_name">TNT_Attendance</string>
-
-    <string name="tab_attendance_main">출석부</string>
-    <string name="tab_ranking_list">출석 현황</string>
-
-    <array name="weekdays">
-        <item>월</item>
-        <item>화</item>
-        <item>수</item>
-        <item>목</item>
-        <item>금</item>
-        <item>토</item>
-        <item>일</item>
-    </array>
 </resources>
