@@ -1,4 +1,4 @@
-package com.tnt.commonlibrary
+package com.tnt.commonlibrary.wrapper
 
 import android.content.Context
 import androidx.core.content.ContextCompat
