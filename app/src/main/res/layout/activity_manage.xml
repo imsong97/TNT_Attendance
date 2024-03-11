@@ -30,22 +30,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/color_212121"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/btn_regist"
+            app:layout_constraintEnd_toStartOf="@+id/btn_calendar_dialog"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_divider"
-            tools:text="2024년 3월 10일 (일)" />
+            android:text="@string/attend_manage_description" />
 
-        <TextView
-            android:id="@+id/btn_regist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="등록"
-            android:textSize="20sp"
+        <ImageView
+            android:id="@+id/btn_calendar_dialog"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitCenter"
             android:layout_marginEnd="24dp"
+            android:background="@drawable/ic_calendar"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_selected_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/txt_selected_date" />
 
@@ -53,7 +54,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
