@@ -3,6 +3,8 @@ package com.tnt.attendance.manage
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -53,7 +55,17 @@ class AttendManageActivity : AppCompatActivity(), AttendManageContract.View {
         if (item.itemId == android.R.id.home) {
             finish()
         } else if (item.itemId == R.id.btn_regist) {
-            // TODO regist
+            memberSelectAdapter?.getSelectedList()?.let {
+                if (it.isEmpty()) {
+                    showErrorDialog("인원을 선택하세요.") // TODO string
+                    return false
+                }
+                showProgressbar()
+                val attendMap = hashMapOf<String, ArrayList<String>>().apply {
+                    this[selectedDate.day.toString()] = it
+                }
+                presenter.setAttendMember(selectedDate.year.toString(), selectedDate.month.toString(), attendMap)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -73,6 +85,7 @@ class AttendManageActivity : AppCompatActivity(), AttendManageContract.View {
         RxBus.listen(RxEvent.SelectedDate::class.java)
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe {
+                showProgressbar()
                 presenter.getMemberList()
                 selectedDate = it.date
                 binding.txtSelectedDate.text = "${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일" // TODO 요일?
@@ -82,16 +95,35 @@ class AttendManageActivity : AppCompatActivity(), AttendManageContract.View {
     }
 
     override fun setAdapter(list: ArrayList<ClubMember>) {
+        hideProgressbar()
         if (list.isEmpty()) {
-            // TODO dialog
+            showErrorDialog("")// TODO dialog
             return
         }
         if (memberSelectAdapter == null) {
             memberSelectAdapter = MemberSelectAdapter(list)
             binding.recyclerView.adapter = memberSelectAdapter
         } else {
+            memberSelectAdapter?.setData(list)
             memberSelectAdapter?.notifyDataSetChanged()
         }
+    }
+
+    override fun successAttendMember() {
+        Toast.makeText(this@AttendManageActivity, "등록되었습니다.", Toast.LENGTH_SHORT).show() // TODO String
+        finish()
+    }
+
+    override fun showErrorDialog(msg: String) {
+        hideProgressbar()
+    }
+
+    private fun showProgressbar() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressbar() {
+        binding.progressBar.visibility = View.GONE
     }
 
     override fun onDestroy() {

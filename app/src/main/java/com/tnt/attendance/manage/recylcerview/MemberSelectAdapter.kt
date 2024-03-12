@@ -14,17 +14,25 @@ import com.tnt.attendance.databinding.ItemMemeberSelectCellBinding
 import com.tnt.attendance_data.entity.ClubMember
 
 class MemberSelectAdapter(
-    private val memberList: ArrayList<ClubMember>
+    private var memberList: ArrayList<ClubMember>
 ) : RecyclerView.Adapter<MemberSelectAdapter.ViewHolder>() {
 
     private var context: Context? = null
+    private val selectedMemberList by lazy { arrayListOf<String>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         val binding: ItemMemeberSelectCellBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_memeber_select_cell, parent, false)
         return ViewHolder(binding, context!!).apply {
-
-	    }
+            binding.checkbox.setOnCheckedChangeListener { _, isCheck ->
+                if (isCheck) {
+                    selectedMemberList.add(binding.checkbox.text.toString())
+                } else {
+                    selectedMemberList.remove(binding.checkbox.text.toString())
+                }
+                println(selectedMemberList)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -32,6 +40,12 @@ class MemberSelectAdapter(
     }
 
     override fun getItemCount(): Int = memberList.size
+
+    fun setData(list: ArrayList<ClubMember>) {
+        memberList = list
+    }
+
+    fun getSelectedList() = selectedMemberList
 
     class ViewHolder(
         private val binding: ItemMemeberSelectCellBinding,
