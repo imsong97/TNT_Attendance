@@ -7,7 +7,7 @@ interface AttendanceContract {
         fun showErrorDialog(msg: String)
     }
     interface Presenter {
-        fun getSpinnerData(year: String)
+        fun getSpinnerData(year: String, nowMonth: String)
         fun getAttendDateList(year: String, month: String)
         fun getAttendMemberList(date: String): ArrayList<String>
         fun dispose()
