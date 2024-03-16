@@ -1,19 +1,19 @@
 package com.tnt.attendance.manage
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.tnt.attendance.R
-import com.tnt.attendance.attendancemain.AttendancePresenter
-import com.tnt.attendance.attendancemain.recylcerview.MemberListAdapter
 import com.tnt.attendance.databinding.ActivityManageBinding
-import com.tnt.attendance.manage.dialog.CalendarDialog
+import com.tnt.attendance.databinding.ViewDialogCalendarBinding
 import com.tnt.attendance.manage.recylcerview.MemberSelectAdapter
 import com.tnt.attendance_data.entity.ClubMember
 import com.tnt.commonlibrary.RxBus
@@ -71,7 +71,7 @@ class AttendManageActivity : AppCompatActivity(), AttendManageContract.View {
     }
 
     private fun initView() {
-        CalendarDialog(this@AttendManageActivity, null).show()
+        showCalendarDialog()
 
         binding.recyclerView.apply {
             this.setHasFixedSize(true)
@@ -79,7 +79,7 @@ class AttendManageActivity : AppCompatActivity(), AttendManageContract.View {
         }
 
         binding.btnCalendarDialog.setOnClickListener {
-            CalendarDialog(this@AttendManageActivity, null).show()
+            showCalendarDialog()
         }
 
         RxBus.listen(RxEvent.SelectedDate::class.java)
@@ -114,6 +114,30 @@ class AttendManageActivity : AppCompatActivity(), AttendManageContract.View {
         finish()
     }
 
+    private fun showCalendarDialog() {
+        val view: ViewDialogCalendarBinding = DataBindingUtil.inflate(LayoutInflater.from(this@AttendManageActivity), R.layout.view_dialog_calendar, null, false)
+
+        val dialog = AlertDialog.Builder(this@AttendManageActivity)
+            .setView(view.root)
+            .create()
+
+        view.calendarView.apply {
+            this.isPagingEnabled = false // disable swipe
+            this.topbarVisible = false // 캘린더 선택 bar 삭제
+            this.isLongClickable = false
+
+
+            // 날짜 선택 리스너
+            this.setOnDateChangedListener { widget, date, selected ->
+                RxBus.publish(RxEvent.SelectedDate(date)) // TODO method
+                dialog.dismiss()
+            }
+            this.invalidate()
+        }
+
+        dialog.show()
+    }
+
     override fun showErrorDialog(msg: String) {
         hideProgressbar()
     }
@@ -127,6 +151,7 @@ class AttendManageActivity : AppCompatActivity(), AttendManageContract.View {
     }
 
     override fun onDestroy() {
+        presenter.dispose()
         super.onDestroy()
     }
 }
