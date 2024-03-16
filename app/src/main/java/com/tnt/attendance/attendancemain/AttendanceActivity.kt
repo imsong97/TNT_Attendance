@@ -22,7 +22,9 @@ import com.tnt.attendance.attendancemain.recylcerview.MemberListAdapter
 import com.tnt.attendance.databinding.ActivityAttendanceBinding
 import com.tnt.attendance.manage.AttendManageActivity
 import com.tnt.attendance_data.AttendanceDataRepository
+import com.tnt.commonlibrary.remoteconfig.RemoteConfig
 import com.tnt.commonlibrary.wrapper.ContextWrapper
+import com.tnt.commonlibrary.wrapper.PreferenceWrapper
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -48,6 +50,7 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
     }
 
     private fun initView() {
+        showModifyButton()
         showLottie()
 
         val calendar = Calendar.getInstance(Locale.KOREA)
@@ -63,6 +66,7 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
         binding.layoutSpinner.setOnClickListener(listener)
         binding.btnAttendanceMain.setOnClickListener(listener)
         binding.btnRankingList.setOnClickListener(listener)
+        binding.btnGoManage.setOnClickListener(listener)
     }
 
     private val listener = View.OnClickListener { v ->
@@ -72,10 +76,12 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
 
             }
             R.id.btn_ranking_list -> {
+//                throw RuntimeException("Test Crash") // Force a crash
+            }
+            R.id.btn_go_manage -> {
                 Intent(this@AttendanceActivity, AttendManageActivity::class.java).also {
                     startActivity(it)
                 }
-//                throw RuntimeException("Test Crash") // Force a crash
             }
         }
     }
@@ -164,6 +170,13 @@ class AttendanceActivity : AppCompatActivity(), AttendanceContract.View {
 
     private fun setSpinnerText(year: Int, month: Int) {
         binding.txtSpinner.text = "${year}년 ${month}월"
+    }
+
+    private fun showModifyButton() {
+        val userId = PreferenceWrapper(this@AttendanceActivity).getUserId()
+        if (RemoteConfig.instance?.isAdmin(userId) == true) {
+            binding.btnGoManage.visibility = View.VISIBLE
+        }
     }
 
     override fun showErrorDialog(msg: String) {

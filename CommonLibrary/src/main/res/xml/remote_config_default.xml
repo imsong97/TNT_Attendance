@@ -2,6 +2,6 @@
 <defaultsMap>
     <entry>
         <key>utils</key>
-        <value>{ "minAttendCount": 6, "adminCode": "", "membershipCode": { "0": "임시회원", "1": "정회원", "10": "회장", "11": "경기이사", "12": "홍보", "13": "총무", "14": "서기"}, "logout": []}</value>
+        <value>{ "minAttendCount": 6, "adminList": [], "membershipCode": { "0": "임시회원", "1": "정회원", "10": "회장", "11": "경기이사", "12": "홍보", "13": "총무", "14": "서기"}, "logout": []}</value>
     </entry>
 </defaultsMap>

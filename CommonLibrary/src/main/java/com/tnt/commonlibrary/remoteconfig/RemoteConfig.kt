@@ -62,4 +62,19 @@ class RemoteConfig {
     } else {
         arrayListOf()
     }
+
+    fun getAdminList(): ArrayList<String> = if (utilConfig.has("adminList")) {
+        arrayListOf<String>().apply {
+            utilConfig.getJSONArray("adminList").also {
+                for(i in 0 until it.length()){
+                    this.add(it.getString(i))
+                }
+            }
+        }
+    } else {
+        arrayListOf()
+    }
+
+//    fun isAdmin(userId: String): Boolean = true // TODO test
+    fun isAdmin(userId: String): Boolean = getAdminList().contains(userId)
 }
