@@ -8,6 +8,8 @@ import io.reactivex.Single
 
 class Firestore {
 
+    private val ATTENDANCE_STATUS by lazy { "attendance_status" }
+
     // FirebaseFirestore.getInstance() 가 synchronized 처리 되어있는데, 또 쓰는게 맞나?
     companion object {
         private var mInstance: Firestore? = null
@@ -70,6 +72,24 @@ class Firestore {
                 }
                 .addOnFailureListener {
                     Log.e("Firestore - setAttendList", it.printStackTrace().toString())
+                    emitter.onSuccess(false)
+                }
+        }
+
+    fun setAttendStatus(docName: String, field: Map<String, ArrayList<Int>>): Single<Boolean> =
+        Single.create { emitter ->
+            FirebaseFirestore.getInstance()
+                .collection(ATTENDANCE_STATUS).document(docName)
+                .set(field, SetOptions.merge())
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        emitter.onSuccess(true)
+                    } else {
+                        emitter.onSuccess(false)
+                    }
+                }
+                .addOnFailureListener {
+                    Log.e("Firestore - setAttendStatus", it.printStackTrace().toString())
                     emitter.onSuccess(false)
                 }
         }
