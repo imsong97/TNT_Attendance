@@ -12,6 +12,11 @@ class RemoteConfig {
         JSONObject(value)
     }
 
+    private val memberConfig by lazy {
+        val value = FirebaseRemoteConfig.getInstance().getString("member")
+        JSONObject(value)
+    }
+
     companion object {
         private var mInstance: RemoteConfig? = null
         val instance: RemoteConfig?
@@ -42,6 +47,12 @@ class RemoteConfig {
 
             }
         }
+    }
+
+    fun getMember(): String = if (memberConfig.has("member")) {
+        memberConfig.get("member").toString()
+    } else {
+        ""
     }
 
     fun getMinAttendCount(): Int = if (utilConfig.has("minAttendCount")) {
