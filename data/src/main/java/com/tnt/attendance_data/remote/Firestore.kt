@@ -16,6 +16,7 @@ class Firestore {
         val instance: Firestore?
             get() = synchronized(Firestore::class.java) {
                 if (mInstance == null) {
+                    FirebaseFirestore.setLoggingEnabled(true)
                     mInstance = Firestore()
                 }
                 return mInstance
@@ -73,6 +74,19 @@ class Firestore {
                 .addOnFailureListener {
                     Log.e("Firestore - setAttendList", it.printStackTrace().toString())
                     emitter.onSuccess(false)
+                }
+        }
+
+    fun getAttendStatus(docName: String): Single<String> =
+        Single.create { emitter ->
+            FirebaseFirestore.getInstance()
+                .collection(ATTENDANCE_STATUS).document(docName)
+                .get()
+                .addOnSuccessListener {
+                    println("status : ${it.data?.toString()}")
+                    emitter.onSuccess(it.data?.toString() ?: "")
+                }.addOnFailureListener {
+                    emitter.onError(Throwable("Firestore - getAttendStatus"))
                 }
         }
 
