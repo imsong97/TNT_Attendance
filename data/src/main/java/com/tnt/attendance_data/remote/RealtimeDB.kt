@@ -1,8 +1,8 @@
 package com.tnt.attendance_data.remote
 
 import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.BuildConfig
 import com.google.firebase.ktx.Firebase
+import com.tnt.attendance_data.entity.ErrorEntity
 import io.reactivex.Single
 
 class RealtimeDB {
@@ -33,4 +33,13 @@ class RealtimeDB {
                 emitter.onError(Throwable(it.printStackTrace().toString()))
             }
         }
+
+    fun sendError(errorJson: ErrorEntity) {
+        database.reference.child("error_log").push().setValue(errorJson)
+            .addOnCompleteListener {
+                println("++send error complete ${it.isSuccessful}++")
+            }.addOnFailureListener {
+                println("++send error failed ${it.printStackTrace()}++")
+            }
+    }
 }
