@@ -18,6 +18,8 @@ import com.tnt.attendance.manage.recylcerview.MemberSelectAdapter
 import com.tnt.attendance_data.entity.ClubMember
 import com.tnt.commonlibrary.RxBus
 import com.tnt.commonlibrary.RxEvent
+import com.tnt.commonlibrary.wrapper.ContextWrapper
+import com.tnt.commonlibrary.wrapper.PreferenceWrapper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlin.collections.ArrayList
@@ -33,7 +35,11 @@ class AttendManageActivity : AppCompatActivity(), AttendManageContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@AttendManageActivity, R.layout.activity_manage)
-        presenter = AttendManagePresenter(this@AttendManageActivity)
+        presenter = AttendManagePresenter(
+            this@AttendManageActivity,
+            ContextWrapper(this@AttendManageActivity),
+            PreferenceWrapper(this@AttendManageActivity)
+        )
 
         title = getString(com.tnt.commonlibrary.R.string.title_attend_manage)
         setSupportActionBar(binding.toolbar)

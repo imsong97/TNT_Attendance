@@ -1,7 +1,10 @@
 package com.tnt.attendance.manage
 
 import com.tnt.attendance_data.AttendanceDataRepository
+import com.tnt.attendance_data.ErrorRepository
 import com.tnt.attendance_data.entity.ClubMember
+import com.tnt.commonlibrary.wrapper.ContextWrapper
+import com.tnt.commonlibrary.wrapper.PreferenceWrapper
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -9,10 +12,13 @@ import io.reactivex.schedulers.Schedulers
 
 class AttendManagePresenter(
     private val view: AttendManageContract.View,
+    private val contextWrapper: ContextWrapper,
+    private val preference: PreferenceWrapper
 ) : AttendManageContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
     private val repository by lazy { AttendanceDataRepository() }
+    private val userPhone by lazy { preference.getUserId() }
     private lateinit var memberList: ArrayList<ClubMember>
 
     override fun getMemberList() {
@@ -21,7 +27,7 @@ class AttendManagePresenter(
             return
         }
 
-        repository.getMemberList()
+        repository.getMemberListRC()
             ?.observeOn(Schedulers.computation())
             ?.map {
                 ArrayList(it.sortedWith(compareBy(ClubMember::position)))
@@ -33,6 +39,7 @@ class AttendManagePresenter(
             }, {
                 it.printStackTrace()
                 view.setAdapter(arrayListOf())
+                ErrorRepository.instance?.sendError(userPhone, "getMemberList - ${it.printStackTrace()}")
             })?.also {
                 compositeDisposable.add(it)
             }
@@ -54,6 +61,7 @@ class AttendManagePresenter(
             }, {
                 it.printStackTrace()
                 view.showErrorDialog("") // TODO
+                ErrorRepository.instance?.sendError(userPhone, "setAttendMember - ${it.printStackTrace()}")
             })?.also {
                 compositeDisposable.add(it)
             }
